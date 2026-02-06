@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AS Sport Minden - Praktikum Präsentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #374151;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #10b981;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: slideInUp 1s ease 0.2s forwards;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 1s ease 0.5s forwards;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 1s ease 0.8s forwards;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.5);
+        }
+
+        .hero-video {
+            width: 450px;
+            height: 550px;
+            background: linear-gradient(45deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.8) translateX(50px);
+            animation: slideInRight 1.2s ease 1s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-video::before {
+            content: '▶️ Fitnessstudio Video';
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        /* Sections */
+        .section {
+            padding: 120px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Berufsfeld I */
+        .berufsfeld-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .berufsfeld-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .content-block {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .content-block.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-block h3 {
+            color: #1e293b;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .content-block ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-block li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .content-block li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        /* Kurs Cards */
+        .kurs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .kurs-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,250,252,0.9));
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(16,185,129,0.2);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.5s ease;
+        }
+
+        .kurs-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .kurs-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 70px rgba(16,185,129,0.3);
+            border-color: #10b981;
+        }
+
+        .kurs-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .kurs-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            position: relative;
+            overflow: hidden;
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: scale(0.8) translateY(-50px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .modal-video {
+            width: 100%;
+            height: 300px;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #64748b;
+        }
+
+        .modal-text {
+            padding: 2.5rem;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #64748b;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+            margin: 4rem auto;
+            max-width: 800px;
+        }
+
+        .stat {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .stat.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+        /* NEUE SECTIONS */
+#ausbildung, #karriere {
+  padding: 120px 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.ausbildung-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+.karriere-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-top: 3rem;
+}
+@media (max-width: 768px) {
+  .karriere-grid { grid-template-columns: 1fr; gap: 2rem; }
+}
+.ausbildung-card, .karriere-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3rem;
+  border-radius: 25px;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.6s ease;
+  border: 1px solid rgba(255,255,255,0.3);
+  text-align: center;
+}
+.ausbildung-card.animate, .karriere-card.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+        /* Animations */
+        @keyframes slideInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInRight {
+            to { opacity: 1; transform: scale(1) translateX(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero { flex-direction: column; text-align: center; padding: 0 5%; }
+            .hero-video { width: 100%; max-width: 450px; margin-top: 2rem; }
+            .berufsfeld-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">AS Sport Minden</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#berufsfeld">Berufsfeld</a></li>
+            <li><a href="#kurse">Kurse</a></li>
+            <li><a href="#aufgaben">Aufgaben</a></li>
+            <!-- IN DEINER nav-links UL diese 2 Zeilen HINZUFÜGEN -->
+<li><a href="#ausbildung">Ausbildung</a></li>
+<li><a href="#karriere">Karriere</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Mein Praktikum<br>bei AS Sport Minden</h1>
+            <p>Ich interessiere mich für Sport, Fitness und Gesundheit. Im Fitnessstudio „AS Sport Minden" habe ich die Arbeit eines Trainers kennengelernt.</p>
+            <button class="cta-button">Praktikum entdecken</button>
+        </div>
+       <div class="hero-video"><video autoplay muted loop playsinline src="Video1.mp4"></video></div>
+    </section>
+
+    <!-- Berufsfeld I -->
+    <section class="section" id="berufsfeld">
+        <h2>Mein Berufsfeld I – Fitnessstudio</h2>
+        <div class="berufsfeld-grid">
+            <div class="content-block">
+                <h3>Typische Tätigkeiten</h3>
+                <ul>
+                    <li>Betreuung von Mitgliedern im Trainingsbereich</li>
+                    <li>Unterstützung bei Trainingsplänen</li>
+                    <li>Mithilfe bei Kurseinheiten</li>
+                    <li>Pflege und Reinigung der Geräte</li>
+                    <li>Kundenservice an der Theke</li>
+                </ul>
+            </div>
+            <div class="content-block">
+                <h3>Arbeitsbedingungen</h3>
+                <ul>
+                    <li>Schichtsystem (Früh-/Spätschicht)</li>
+                    <li>Auch Wochenendarbeit</li>
+                    <li>Sportliches Team</li>
+                    <li>Viel Kundenkontakt</li>
+                    <li>Körperlich aktive Arbeit</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Berufsfeld II -->
+    <section class="section">
+        <h2>Mein Berufsfeld II – AS Sport Minden</h2>
+        <div class="berufsfeld-grid">
+            <div class="content-block">
+                <h3>Arbeitsbedingungen</h3>
+                <ul>
+                    <li>Saubere, moderne Räumlichkeiten</li>
+                    <li>Viele Trainingsgeräte</li>
+                    <li>Freundliches Team</li>
+                    <li>Unterstützung bei Zielen</li>
+                    <li>Alle Altersgruppen</li>
+                </ul>
+            </div>
+            <div class="content-block">
+                <h3>Anforderungen an mich</h3>
+                <ul>
+                    <li>Freundliches Auftreten</li>
+                    <li>Hilfsbereitschaft</li>
+                    <li>Zuverlässigkeit</li>
+                    <li>Sportliche Kleidung</li>
+                    <li>Motivation & Teamgeist</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kurse -->
+    <section class="section" id="kurse">
+        <h2>Kursangebot AS Sport Minden</h2>
+        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: #64748b;">
+            Große Auswahl an Kursen für jeden Fitnesslevel
+        </p>
+        <div class="kurs-grid">
+            <div class="kurs-card" onclick="openModal('pilates')">
+                <div class="kurs-icon">🧘‍♀️</div>
+                <h3>Pilates</h3>
+                <p>Körperhaltung, Beweglichkeit, Rumpfmuskulatur</p>
+            </div>
+            <div class="kurs-card" onclick="openModal('bodypump')">
+                <div class="kurs-icon">🏋️</div>
+                <h3>Bodypump</h3>
+                <p>Langhantel-Kurs für Kraft & Muskelaufbau</p>
+            </div>
+            <div class="kurs-card" onclick="openModal('cycling')">
+                <div class="kurs-icon">🚴</div>
+                <h3>Indoor Cycling</h3>
+                <p>Ausdauertraining auf dem Rad mit Musik</p>
+            </div>
+            <div class="kurs-card" onclick="openModal('ruecken')">
+                <div class="kurs-icon">🦴</div>
+                <h3>Rücken Fit</h3>
+                <p>Gezieltes Training für starken Rücken</p>
+            </div>
+            <div class="kurs-card" onclick="openModal('mobility')">
+                <div class="kurs-icon">🌀</div>
+                <h3>Mobility Training</h3>
+                <p>Beweglichkeit & gesunde Gelenke</p>
+            </div>
+            <div class="kurs-card" onclick="openModal('rehafit')">
+                <div class="kurs-icon">❤️</div>
+                <h3>Rehasport / RehaFit</h3>
+                <p>Für gesundheitliche Beschwerden</p>
+            </div>
+        </div>
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number">50+</span>
+                <p>Kurse pro Woche</p>
+            </div>
+            <div class="stat">
+                <span class="stat-number">1000+</span>
+                <p>Mitglieder</p>
+            </div>
+            <div class="stat">
+                <span class="stat-number">7</span>
+                <p>Tage Training</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="kursModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="modal-video" id="modalVideo">
+                ▶️ Video Placeholder (ersetze mit echtem Video)
+            </div>
+            <div class="modal-text" id="modalText">
+                <h2 id="modalTitle">Kursname</h2>
+                <p id="modalDesc">Kursbeschreibung...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANIMIERTES BILD -->
+<section class="section" id="bild">
+<div style="text-align: center; padding: 80px 5%;">
+<img src="Bild1.jpg" alt="Fitness" class="content-block" style="width: 100%; max-width: 800px; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.2);">
+</div>
+</section>
+
+    <!-- Aufgaben -->
+    <section class="section" id="aufgaben">
+        <h2>Meine Leistungen im Praktikum</h2>
+        <div class="berufsfeld-grid">
+            <div class="content-block">
+                <h3>Trainerteam unterstützen</h3>
+                <ul>
+                    <li>Geräte vorbereiten & aufräumen</li>
+                    <li>Mitglieder ansprechen</li>
+                    <li>Trainingsbereich betreuen</li>
+                </ul>
+            </div>
+            <div class="content-block">
+                <h3>Erfahrungen sammeln</h3>
+                <ul>
+                    <li>Teilnahme an Kursen</li>
+                    <li>Gerätepflege & Beratung</li>
+                    <li>Fitness- & Gesundheitswissen</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: AUSBILDUNG -->
+<section class="section" id="ausbildung">
+<h2>Ausbildung & Karriereweg</h2>
+<div class="ausbildung-grid">
+<div class="ausbildung-card">
+<h3>🏋️ B-Lizenz</h3>
+<p><strong>Dauer:</strong> 3–6 Monate (berufsbegleitend, Fernstudium + Praxis)</p>
+<p><strong>Inhalte:</strong> Anatomie, Training, Ernährung</p>
+</div>
+<div class="ausbildung-card">
+<h3>🎓 Weiterbildung</h3>
+<p>A-Lizenz, Personal Trainer, Bachelor Sportmanagement (3 Jahre)</p>
+</div>
+<div class="ausbildung-card">
+<h3>💰 Verdienst</h3>
+<p><strong>Einstieg:</strong> 2.000–2.500 € brutto/Monat</p>
+<p><strong>Entwicklung:</strong> Bis 4.500 € mit Erfahrung</p>
+</div>
+<div class="ausbildung-card">
+<h3>🌟 Zukunftschancen</h3>
+<p>Hoher Bedarf (Fachkräftemangel, Digitalisierung)</p>
+</div>
+</div>
+</section>
+
+<!-- SECTION 2: VOR-/NACHTEILE -->
+<section class="section" id="karriere">
+<h2>Vorteile & Nachteile</h2>
+<div class="karriere-grid">
+<div class="karriere-card">
+<h3>✅ Vorteile</h3>
+<ul>
+<li>Abwechslung & Kundenkontakt</li>
+<li>Sinnstiftend (Gesundheit)</li>
+<li>Flexibel & jobsicher</li>
+</ul>
+</div>
+<div class="karriere-card">
+<h3>⚠️ Nachteile</h3>
+<ul>
+<li>Schichtarbeit (Abends/Wochenenden)</li>
+<li>Körperlich anstrengend</li>
+<li>Hohe Verantwortung</li>
+</ul>
+</div>
+</div>
+</section>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.content-block, .kurs-card, .stat').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth', block: 'start'
+                });
+            });
+        });
+
+        // CTA scroll
+        document.querySelectorAll('.cta-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelector('#home').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Modal functionality
+        const kursData = {
+pilates: { 
+    title: 'Pilates', 
+    desc: 'Körperhaltung, Beweglichkeit, Rumpfmuskulatur. Benötigte Lizenz: B-Lizenz Fitness-Gymnastik ',
+    bild: 'Pilates.jpeg'  // ← HIER dein Bild
+},
+bodypump: { 
+    title: 'Bodypump', 
+    desc: 'Langhantel-Kurs für Kraft & Muskelaufbau. Benötigte Lizenz: A-Lizenz Krafttraining',
+    bild: 'bodypump.png'  // ← HIER dein Bild
+},
+cycling: { 
+    title: 'Indoor Cycling', 
+    desc: 'Ausdauertraining mit Musik. Benötigte Lizenz: B-Lizenz Ausdauertraining',
+    bild: 'cycling.jpg'
+},
+ruecken: { 
+    title: 'Rücken Fit', 
+    desc: 'Starker Rücken gegen Schmerzen. Benötigte Lizenz: B-Lizenz Rehabilitationssport',
+    bild: 'ruecken.jpg'
+},
+mobility: { 
+    title: 'Mobility Training', 
+    desc: 'Beweglichkeit & Gelenke. Benötigte Lizenz: B-Lizenz Fitness-Gymnastik',
+    bild: 'mobility.jpg'
+},
+rehafit: { 
+    title: 'Rehasport', 
+    desc: 'Für gesundheitliche Beschwerden. Benötigte Lizenz: A-Lizenz Medizinisches Training',
+    bild: 'rehafit.jpg'
+}
+};
+
+        function openModal(kurs) {
+    const data = kursData[kurs];
+    document.getElementById('modalTitle').textContent = data.title;
+    document.getElementById('modalDesc').textContent = data.desc;
+    
+    // BILD statt Video
+    document.getElementById('modalVideo').innerHTML = 
+        `<img src="${data.bild}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`;
+    
+    document.getElementById('kursModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+        function closeModal() {
+            document.getElementById('kursModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('kursModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        document.querySelectorAll('.ausbildung-card, .karriere-card').forEach(el => {
+  observer.observe(el);
+}); 
+    </script>
+
+    <!-- FUSSZEILE -->
+<footer style="background: rgba(0,0,0,0.9); color: white; text-align: center; padding: 3rem 5%; margin-top: 5rem;">
+<div class="container" style="max-width: 1200px; margin: 0 auto;">
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; margin-bottom: 1rem;">
+<div>
+<h3 style="color: #10b981; margin-bottom: 0.5rem;">Waseem</h3>
+<p style="margin: 0; font-size: 1.1rem;">Q1</p>
+</div>
+<div style="text-align: right;">
+<h3 style="color: #10b981; margin-bottom: 0.5rem;">KTG Schule</h3>
+<p>Praktikum Präsentation 2026</p>
+</div>
+</div>
+<div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+AS Sport Minden - Praktikumspräsentation
+</div>
+</div>
+</footer>
+
+
+</body>
+</html>
