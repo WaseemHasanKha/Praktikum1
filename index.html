@@ -430,6 +430,18 @@
     opacity: 0;
   }
 }
+
+        @keyframes float-up {
+  0% { 
+    transform: translateY(0) translateX(0) rotate(0deg); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: translateY(calc(-1 * var(--uplift))) translateX(calc(var(--pos-x) * 2)) rotate(360deg); 
+    opacity: 0; 
+  }
+}
+        
     </style>
 </head>
 <body>
@@ -778,26 +790,27 @@ rehafit: {
 }); 
 
         // Particles Animation Footer
-const container = document.getElementById("particle-container");
-const fragment = document.createDocumentFragment();
-
-for (let i = 0; i < 100; i++) {
-    const span = document.createElement("span");
-    span.classList.add("particle");
-    span.style.setProperty("--dim", `${3 + Math.random() * 6}rem`);
-    span.style.setProperty("--uplift", `${10 + Math.random() * 15}rem`);
-    span.style.setProperty("--pos-x", `${Math.random() * 100}%`);
-    span.style.setProperty("--dur", `${3 + Math.random() * 3}s`);
-    span.style.setProperty("--delay", `${-1 * (Math.random() * 10)}s`);
-    fragment.appendChild(span);
-}
-
-container.appendChild(fragment);
+window.addEventListener('load', function() {
+    const container = document.getElementById("particle-container");
+    const fragment = document.createDocumentFragment();
+    
+    for(let i = 0; i < 100; i++) {
+        const span = document.createElement("span");
+        span.classList.add("particle");
+        span.style.setProperty("--dim", `${3 + Math.random() * 6}rem`);
+        span.style.setProperty("--uplift", `${10 + Math.random() * 15}rem`);
+        span.style.setProperty("--pos-x", `${Math.random() * 100}%`);
+        span.style.setProperty("--dur", `${3 + Math.random() * 3}s`);
+        span.style.setProperty("--delay", `${-1 * (Math.random() * 10)}s`);
+        fragment.appendChild(span);
+    }
+    container.appendChild(fragment);
+});
         
     </script>
 
     <!-- FUSSZEILE -->
-<footer id="particle-container" style="position: relative; overflow: hidden; padding: 3rem 5%;">
+<footer id="particle-container" style="position: relative; overflow: visible; padding: 3rem 5%;">
 <div style="background: linear-gradient(135deg, #ff6b35, #f7931e, #ff4500); color: white; text-align: center; padding: 3rem 5%; position: relative; z-index: 2; border-radius: 25px; margin: 0 5%; box-shadow: 0 -20px 60px rgba(0,0,0,0.3);">
 <h3 style="color: #10b981; margin-bottom: 1rem; font-size: 2rem;">Waseem - Q1</h3>
 <p style="font-size: 1.3rem; margin-bottom: 1rem;">KTG Schule</p>
