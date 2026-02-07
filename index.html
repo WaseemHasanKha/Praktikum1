@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -411,7 +412,7 @@
   position: absolute;
   width: var(--dim, 1rem);
   height: var(--dim, 1rem);
-  background: radial-gradient(circle, #ff6b35, #ff4500, orange), rgba(255,255,255,0.2));
+  background: radial-gradient(circle, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
   border-radius: 50%;
   bottom: 0;
   left: var(--pos-x, 0);
@@ -430,18 +431,6 @@
     opacity: 0;
   }
 }
-
-        @keyframes float-up {
-  0% { 
-    transform: translateY(0) translateX(0) rotate(0deg); 
-    opacity: 1; 
-  }
-  100% { 
-    transform: translateY(calc(-1 * var(--uplift))) translateX(calc(var(--pos-x) * 2)) rotate(360deg); 
-    opacity: 0; 
-  }
-}
-        
     </style>
 </head>
 <body>
@@ -790,28 +779,27 @@ rehafit: {
 }); 
 
         // Particles Animation Footer
-window.addEventListener('load', function() {
-    const container = document.getElementById("particle-container");
-    const fragment = document.createDocumentFragment();
-    
-    for(let i = 0; i < 100; i++) {
-        const span = document.createElement("span");
-        span.classList.add("particle");
-        span.style.setProperty("--dim", `${3 + Math.random() * 6}rem`);
-        span.style.setProperty("--uplift", `${10 + Math.random() * 15}rem`);
-        span.style.setProperty("--pos-x", `${Math.random() * 100}%`);
-        span.style.setProperty("--dur", `${3 + Math.random() * 3}s`);
-        span.style.setProperty("--delay", `${-1 * (Math.random() * 10)}s`);
-        fragment.appendChild(span);
-    }
-    container.appendChild(fragment);
-});
+const container = document.getElementById("particle-container");
+const fragment = document.createDocumentFragment();
+
+for (let i = 0; i < 100; i++) {
+    const span = document.createElement("span");
+    span.classList.add("particle");
+    span.style.setProperty("--dim", `${3 + Math.random() * 6}rem`);
+    span.style.setProperty("--uplift", `${10 + Math.random() * 15}rem`);
+    span.style.setProperty("--pos-x", `${Math.random() * 100}%`);
+    span.style.setProperty("--dur", `${3 + Math.random() * 3}s`);
+    span.style.setProperty("--delay", `${-1 * (Math.random() * 10)}s`);
+    fragment.appendChild(span);
+}
+
+container.appendChild(fragment);
         
     </script>
 
     <!-- FUSSZEILE -->
-<footer id="particle-container" style="position: relative; overflow: visible; padding: 3rem 5%;">
-<div style="background: linear-gradient(135deg, #ff6b35, #f7931e, #ff4500); color: white; text-align: center; padding: 3rem 5%; position: relative; z-index: 2; border-radius: 25px; margin: 0 5%; box-shadow: 0 -20px 60px rgba(0,0,0,0.3);">
+<footer id="particle-container" style="position: relative; overflow: hidden; padding: 3rem 5%;">
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 3rem 5%; position: relative; z-index: 2; border-radius: 25px; margin: 0 5%; box-shadow: 0 -20px 60px rgba(0,0,0,0.3);">
 <h3 style="color: #10b981; margin-bottom: 1rem; font-size: 2rem;">Waseem - Q1</h3>
 <p style="font-size: 1.3rem; margin-bottom: 1rem;">KTG Schule</p>
 <p style="opacity: 0.9; font-size: 1.1rem;">AS Sport Minden Praktikum 2026</p>
