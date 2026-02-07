@@ -406,6 +406,30 @@
             .hero-video { width: 100%; max-width: 450px; margin-top: 2rem; }
             .berufsfeld-grid { grid-template-columns: 1fr; }
         }
+
+        .particle {
+  position: absolute;
+  width: var(--dim, 1rem);
+  height: var(--dim, 1rem);
+  background: radial-gradient(circle, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+  border-radius: 50%;
+  bottom: 0;
+  left: var(--pos-x, 0);
+  animation: float-up linear infinite;
+  animation-duration: var(--dur, 5s);
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes float-up {
+  0% { 
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(calc(-1 * var(--uplift, 10rem))) translateX(calc(var(--pos-x) * 2)) rotate(360deg);
+    opacity: 0;
+  }
+}
     </style>
 </head>
 <body>
@@ -731,24 +755,32 @@ rehafit: {
         document.querySelectorAll('.ausbildung-card, .karriere-card').forEach(el => {
   observer.observe(el);
 }); 
+
+        // Particles Animation Footer
+const container = document.getElementById("particle-container");
+const fragment = document.createDocumentFragment();
+
+for (let i = 0; i < 100; i++) {
+    const span = document.createElement("span");
+    span.classList.add("particle");
+    span.style.setProperty("--dim", `${3 + Math.random() * 6}rem`);
+    span.style.setProperty("--uplift", `${10 + Math.random() * 15}rem`);
+    span.style.setProperty("--pos-x", `${Math.random() * 100}%`);
+    span.style.setProperty("--dur", `${3 + Math.random() * 3}s`);
+    span.style.setProperty("--delay", `${-1 * (Math.random() * 10)}s`);
+    fragment.appendChild(span);
+}
+
+container.appendChild(fragment);
+        
     </script>
 
     <!-- FUSSZEILE -->
-<footer style="background: rgba(0,0,0,0.9); color: white; text-align: center; padding: 3rem 5%; margin-top: 5rem;">
-<div class="container" style="max-width: 1200px; margin: 0 auto;">
-<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; margin-bottom: 1rem;">
-<div>
-<h3 style="color: #10b981; margin-bottom: 0.5rem;">Waseem</h3>
-<p style="margin: 0; font-size: 1.1rem;">Q1</p>
-</div>
-<div style="text-align: right;">
-<h3 style="color: #10b981; margin-bottom: 0.5rem;">KTG Schule</h3>
-<p>Praktikum Präsentation 2026</p>
-</div>
-</div>
-<div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
-AS Sport Minden - Praktikumspräsentation
-</div>
+<footer id="particle-container" style="position: relative; overflow: hidden; padding: 3rem 5%;">
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 3rem 5%; position: relative; z-index: 2; border-radius: 25px; margin: 0 5%; box-shadow: 0 -20px 60px rgba(0,0,0,0.3);">
+<h3 style="color: #10b981; margin-bottom: 1rem; font-size: 2rem;">Waseem - Q1</h3>
+<p style="font-size: 1.3rem; margin-bottom: 1rem;">KTG Schule</p>
+<p style="opacity: 0.9; font-size: 1.1rem;">AS Sport Minden Praktikum 2026</p>
 </div>
 </footer>
 
